@@ -12,7 +12,7 @@ import time
 
 def print_signature():
     '''
-    This feels extra to put, but the documentation standards told me to...
+    This description feels extra to put, but the documentation standards told me to...
     This function prints my information!
     '''
     print('Thomas Brittain\n400650099 Engineering 1\nENG 1P13: Integrated Cornerstone Design Projects in Engineering\nDr. Sam Scott\nFall 2025')
@@ -105,16 +105,20 @@ def slot_machine(bet):
     time.sleep(1)
     print(s2, end='  ')
     time.sleep(2)
-    print(s3)
+    print(s3, end='  ')
+    time.sleep(0.5)
 
     #The main logic for checking the result and returning the correct number of points.
     if s1==s2==s3:
+        print(f'Win {bet*5} pts')
         return(bet*5)
     elif s1==s2 or s1==s3 or s2==s3:
+        print(f'Win {bet*2} pts')
         return(bet*2)
     else:
+        print('Win 0 pts')
         return(0)
-
+    
 def pig_dice(threshold):
     '''
     This takes the threshold as given by the user and rolls 2 dice until either there is a 1, two ones, or the value is greater than the threshold!
@@ -143,16 +147,16 @@ def pig_dice(threshold):
         elif d1==1 or d2==1:
             print(output, 'Loss', sep='')
             return(0)
-    print(output, 'Win!', sep='')
+    print(output, f'Win {score} pts', sep='')
     return(score)
 
-def games_room(name, score=int(0)):
+def games_room(name):
     '''
     My main game room!
     This takes the player's name, then loops through the selection menu until the player presses 4 to exit!
     This runs all the above game functions depending on the player's selection,
     '''
-
+    score=0
     play=True
     
     while play:
@@ -188,13 +192,18 @@ def games_room(name, score=int(0)):
 
         #Sets my play to false to stop the loop!
         elif choice=='4':
-            print(score)
+            print(f'Final score:{score}')
             play=False
         
         #Just in case the user errors. I tried to error catch without using try statements. The only non-fool proof places are the inputs for the pig game and the slot as I can't int check.
         else:
-            print('Unknown input... Please try again!')
-    
+            deduct=random.randint(1,20)
+            if deduct>score:
+                score=0
+                print(f'INPUT ERROR. UNKNOWN GAME. -{deduct} POINTS.\nreturning to menu.')
+            else:
+                score-=deduct
+                print(f'INPUT ERROR. UNKNOWN GAME. -{deduct} POINTS.\nreturning to menu.')
     #Makes it so my game doesn't just exit instantly if it's not being run in an IDE for example.
     input('Thank you for playing!\n Press enter to exit.')
 
